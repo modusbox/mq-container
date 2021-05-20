@@ -1,3 +1,31 @@
+* Added by ramiro. Running this image and trying to connect from a Quarkus app using JMS/qpid gave an error on the Java app:
+* Caused by: org.apache.qpid.jms.provider.exceptions.ProviderConnectionSecurityException: 
+* AMQXR0100E: A connection from 172.18.0.1 was not authorized. [condition = amqp:unauthorized-access]
+*
+* Looking at the trace details ( on the trace file ( like /mnt/mqm/data/trace/amqp_218.trc  - see below how to get the current one ) shows:
+*
+* [com.ibm.mq.MQXRService.MQInvocationException: CallType 0, MQCC 0, MQRC 0 MQRC_NONE] 
+* [c.i.mq.MQXRService.MQConnection@a02b143c] 
+* [class com.ibm.mq.MQXRService.MQInvocationException] 
+* [com.ibm.mq.jmqi.JmqiException: CC=2;RC=2330;AMQ6047: Conversion not supported. [1=1200 (UCS2),2=367(US-ASCII) 
+* Unmappable Action: REPORT, Unmappable Replacement: 63, spaceByte: 32]] <null>
+* 
+* You can enable trace by running
+* strmqtrc -t all -t detail
+* Then run strmqtrc -s
+* and
+* runmqsc
+* > DISPLAY SVSTATUS(SYSTEM.AMQP.SERVICE)
+* to get more details
+* 
+* See https://www.ibm.com/support/pages/apar/IT27637
+
+ALTER QMGR CCSID(819)
+* END patch
+
+
+
+
 * © Copyright IBM Corporation 2017, 2019
 *
 *
@@ -77,30 +105,6 @@ SET AUTHREC PROFILE('SYSTEM.DEFAULT.MODEL.QUEUE') PRINCIPAL('app') OBJTYPE(QUEUE
 
 ALTER CHANNEL(SYSTEM.DEF.AMQP) CHLTYPE(AMQP) MCAUSER('app')
 
-* Added by ramiro. Running this image and trying to connect from a Quarkus app using JMS/qpid gave an error on the Java app:
-* Caused by: org.apache.qpid.jms.provider.exceptions.ProviderConnectionSecurityException: 
-* AMQXR0100E: A connection from 172.18.0.1 was not authorized. [condition = amqp:unauthorized-access]
-*
-* Looking at the trace details ( on the trace file ( like ./data/trace/amqp_218.trc  - see below how to get the current one ) shows:
-*
-* [com.ibm.mq.MQXRService.MQInvocationException: CallType 0, MQCC 0, MQRC 0 MQRC_NONE] 
-* [c.i.mq.MQXRService.MQConnection@a02b143c] 
-* [class com.ibm.mq.MQXRService.MQInvocationException] 
-* [com.ibm.mq.jmqi.JmqiException: CC=2;RC=2330;AMQ6047: Conversion not supported. [1=1200 (UCS2),2=367(US-ASCII) 
-* Unmappable Action: REPORT, Unmappable Replacement: 63, spaceByte: 32]] <null>
-* 
-* You can enable trace by running
-* strmqtrc -t all -t detail
-* Then run strmqtrc -s
-* and
-* runmqsc
-* > DISPLAY SVSTATUS(SYSTEM.AMQP.SERVICE)
-* to get more details
-* 
-* See https://www.ibm.com/support/pages/apar/IT27637
-
-ALTER QMGR CCSID(1208)
-* END patch
 
 * Start AMQP service
 START SERVICE(SYSTEM.AMQP.SERVICE)

@@ -15,15 +15,16 @@ Config: See (./docs/developer-config.md)
 
 ## Building the image
 
+```bash
 MQ_VERSION=9.2.2.0 make build-devserver
+```
 
+This will show the full image tag at the end of the log:
 
-
-
-
-
-
-
+```
+Successfully built 17081c9bc345
+Successfully tagged ibm-mqadvanced-server-dev:9.2.2.0-amd64
+```
 
 
 ## Original README
