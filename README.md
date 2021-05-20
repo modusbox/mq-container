@@ -1,5 +1,32 @@
 # IBM MQ container
 
+This is a fork of the main IBM MQ container used to create a docker image that includes the configuration needed to include the AMQP channel, as described in https://developer.ibm.com/components/ibm-mq/tutorials/mq-running-ibm-mq-apps-on-quarkus-and-graalvm-using-qpid-amqp-jms-classes/
+
+From that page: "_IBM MQ provides support for AMQP APIs through an AMQP channel that accepts connections from AMQP client applications. Using IBM MQ, Apache Qpid JMS applications can do publish/subscribe messaging and point-to-point messaging. Messaging is not just confined to AMQP client applications, as intercommunication with client applications based on other IBM MQ API stacks is possible._"
+
+We're using this image to connect from a Quarkus qpid/JMS app
+
+The main modifications are on files:
+
+- install-mq.sh
+- incubating/mqadvanced-server-dev/10-dev.mqsc.tpl
+
+Config: See (./docs/developer-config.md)
+
+## Building the image
+
+MQ_VERSION=9.2.2.0 make build-devserver
+
+
+
+
+
+
+
+
+
+
+## Original README
 [![Build Status](https://travis-ci.org/ibm-messaging/mq-container.svg?branch=master)](https://travis-ci.org/ibm-messaging/mq-container)
 
 **Note**: The `master` branch may be in an *unstable or even broken state* during development.
