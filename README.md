@@ -1,4 +1,40 @@
-# IBM MQ container
+# FWaaS IBM MQ container
+
+This repo is used to build an IBM MQ container image suitable for the FWaaS project, or any other project that uses Quarkus and wants to connect to IBM MQ. It's a fork of the [IBM MQ container repo](https://github.com/ibm-messaging/mq-container) 
+and includes all the changes described at the [Developing JMS apps with Quarkus and GraalVM](https://developer.ibm.com/components/ibm-mq/tutorials/mq-running-ibm-mq-apps-on-quarkus-and-graalvm-using-qpid-amqp-jms-classes/) **INCLUDING** a fix to a bug that took me days to debug.
+
+Why do we need this image? If you use the stock IBM MQ Java jars, you can't create a native executable as the classes use reflection and instrospection not supported bny quarkus or any of its extensions. This image provides an AMQP channel that can be used from a Quarkus native app. The really nice aspect is that on the Quarkus app we can use JMS, so for example you can use the Apache Camel JMS producer/consumer directly, as it uses the `javax.jms.ConnectionFactory` created by the [Quarkus Qpid JMS- AMQP extension](https://quarkus.io/guides/jms#qpid-jms-amqp)
+
+The main modifications are on files:
+
+- install-mq.sh
+- incubating/mqadvanced-server-dev/10-dev.mqsc.tpl
+
+Config: See the original readme below
+
+
+## Building the image
+
+```bash
+MQ_VERSION=9.2.2.0 make build-devserver
+```
+
+This will show the full image tag at the end of the log:
+
+```
+Successfully built 17081c9bc345
+Successfully tagged ibm-mqadvanced-server-dev:9.2.2.0-amd64
+```
+
+
+
+
+
+
+
+
+
+# Original Readme follows
 
 [![Build Status](https://travis-ci.org/ibm-messaging/mq-container.svg?branch=master)](https://travis-ci.org/ibm-messaging/mq-container)
 
