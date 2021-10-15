@@ -15,23 +15,27 @@ Config: See the original readme below
 
 ## Building the image
 
+>9.2.3.0 (2021-07-22)
+>Updated to MQ version 9.2.3.0
+
+
 ```bash
-MQ_VERSION=9.2.2.0 make build-devserver
+MQ_VERSION=9.2.3.0 make build-devserver
 ```
 
 This will show the full image tag at the end of the log:
 
 ```
-Successfully built 17081c9bc345
-Successfully tagged ibm-mqadvanced-server-dev:9.2.2.0-amd64
+Successfully built 43124b5dbef8
+Successfully tagged ibm-mqadvanced-server-dev:9.2.3.0-amd64
 ```
 
+You can then tag & push the new version like:
 
-
-
-
-
-
+```shell
+docker tag ibm-mqadvanced-server-dev:9.2.3.0-amd64 849905330246.dkr.ecr.us-west-2.amazonaws.com/fwaas/ibm-mqadvanced-server-dev-amqp:9.2.3.0-amd64_fwaas_4
+docker push 849905330246.dkr.ecr.us-west-2.amazonaws.com/fwaas/ibm-mqadvanced-server-dev-amqp:9.2.3.0-amd64_fwaas_4\
+```
 
 
 # Original Readme follows
