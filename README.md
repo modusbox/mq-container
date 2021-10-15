@@ -5,6 +5,13 @@ and includes all the changes described at the [Developing JMS apps with Quarkus 
 
 Why do we need this image? If you use the stock IBM MQ Java jars, you can't create a native executable as the classes use reflection and instrospection not supported bny quarkus or any of its extensions. This image provides an AMQP channel that can be used from a Quarkus native app. The really nice aspect is that on the Quarkus app we can use JMS, so for example you can use the Apache Camel JMS producer/consumer directly, as it uses the `javax.jms.ConnectionFactory` created by the [Quarkus Qpid JMS- AMQP extension](https://quarkus.io/guides/jms#qpid-jms-amqp)
 
+This is a fork of the main IBM MQ container used to create a docker image that includes the configuration needed to include the AMQP channel, as described in https://developer.ibm.com/components/ibm-mq/tutorials/mq-running-ibm-mq-apps-on-quarkus-and-graalvm-using-qpid-amqp-jms-classes/
+
+From that page: "_IBM MQ provides support for AMQP APIs through an AMQP channel that accepts connections from AMQP client applications. Using IBM MQ, Apache Qpid JMS applications can do publish/subscribe messaging and point-to-point messaging. Messaging is not just confined to AMQP client applications, as intercommunication with client applications based on other IBM MQ API stacks is possible._"
+
+We're using this image to connect from a Quarkus qpid/JMS app
+
+
 The main modifications are on files:
 
 - install-mq.sh
@@ -33,39 +40,9 @@ Successfully tagged ibm-mqadvanced-server-dev:9.2.3.0-amd64
 You can then tag & push the new version like:
 
 ```shell
-docker tag ibm-mqadvanced-server-dev:9.2.3.0-amd64 849905330246.dkr.ecr.us-west-2.amazonaws.com/fwaas/ibm-mqadvanced-server-dev-amqp:9.2.3.0-amd64_fwaas_4
-docker push 849905330246.dkr.ecr.us-west-2.amazonaws.com/fwaas/ibm-mqadvanced-server-dev-amqp:9.2.3.0-amd64_fwaas_4\
+docker tag ibm-mqadvanced-server-dev:9.2.3.0-amd64 849905330246.dkr.ecr.us-west-2.amazonaws.com/fwaas/ibm-mqadvanced-server-dev-amqp:9.2.3.0-amd64_fwaas_5
+docker push 849905330246.dkr.ecr.us-west-2.amazonaws.com/fwaas/ibm-mqadvanced-server-dev-amqp:9.2.3.0-amd64_fwaas_5
 ```
-
-
-# Original Readme follows
-
-This is a fork of the main IBM MQ container used to create a docker image that includes the configuration needed to include the AMQP channel, as described in https://developer.ibm.com/components/ibm-mq/tutorials/mq-running-ibm-mq-apps-on-quarkus-and-graalvm-using-qpid-amqp-jms-classes/
-
-From that page: "_IBM MQ provides support for AMQP APIs through an AMQP channel that accepts connections from AMQP client applications. Using IBM MQ, Apache Qpid JMS applications can do publish/subscribe messaging and point-to-point messaging. Messaging is not just confined to AMQP client applications, as intercommunication with client applications based on other IBM MQ API stacks is possible._"
-
-We're using this image to connect from a Quarkus qpid/JMS app
-
-The main modifications are on files:
-
-- install-mq.sh
-- incubating/mqadvanced-server-dev/10-dev.mqsc.tpl
-
-Config: See (./docs/developer-config.md)
-
-## Building the image
-
-```bash
-MQ_VERSION=9.2.2.0 make build-devserver
-```
-
-This will show the full image tag at the end of the log:
-
-```
-Successfully built 17081c9bc345
-Successfully tagged ibm-mqadvanced-server-dev:9.2.2.0-amd64
-```
-
 
 ## Original README
 [![Build Status](https://travis-ci.org/ibm-messaging/mq-container.svg?branch=master)](https://travis-ci.org/ibm-messaging/mq-container)

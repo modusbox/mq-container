@@ -99,6 +99,346 @@ DEFINE QLOCAL('FWAAS.STG.FED_INBOUND') REPLACE
 
 * *************** END STG *****************
 
+* *************** PLAIN *****************
+
+* REQUEST queue
+DEFINE QLOCAL('FWAAS.WIRE_OUT') REPLACE
+* FEEDBACK queue ( not mapped to a FED queue )
+DEFINE QLOCAL('FWAAS.WIRE_OUT_FB') REPLACE
+* Inbound / Notification / ADVICE queue
+DEFINE QLOCAL('FWAAS.WIRE_IN') REPLACE
+* ACK/RESPONSES queue
+DEFINE QLOCAL('FWAAS.WIRE_OUT_RESP') REPLACE
+* Broadcast
+DEFINE QLOCAL('FWAAS.BROADCAST') REPLACE
+* Statement
+DEFINE QLOCAL('FWAAS.STATEMENT') REPLACE
+
+* FWAAS DLQ
+DEFINE QLOCAL('FWAAS.WIRE_OUT_DLQ') REPLACE
+DEFINE QLOCAL('FWAAS.WIRE_IN_DLQ') REPLACE
+
+* *************** END PLAIN *****************
+
+
+
+***************  BEGIN FED QUEUES
+
+
+***************************************************
+* Creates QLOCAL queues for 091311229 that are NOT
+* connected to a XMITQ, so they can be used for local testing
+* 
+* Creates FNPR ( production ) and FNCR ( contingency ) queues 
+***************************************************
+
+***************************************************
+*   Application puts request messages into this
+*   queue.
+***************************************************
+
+DEFINE QLOCAL ('FNPR.FROMDI.091311229.A1') +
+       DESCR('Remote CI MQ  q FNCR.FROMDI.091311229.A1') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+DEFINE QLOCAL ('FNCR.FROMDI.091311229.A1') +
+       DESCR('Remote CI MQ  q FNCR.FROMDI.091311229.A1') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+
+***************************************************
+*   Local queue where acknowledgement messages
+*   return from the Federal Reserve.
+***************************************************
+
+DEFINE QLOCAL ('FNPA.TODI.091311229.A1') +
+       DESCR('CI MQ local queue acknowledgement message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+DEFINE QLOCAL ('FNCA.TODI.091311229.A1') +
+       DESCR('CI MQ local queue acknowledgement message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+***************************************************
+*   Local queue where notification messages
+*   return from the Federal Reserve.
+***************************************************
+
+DEFINE QLOCAL ('FNPN.TODI.091311229.A1') +
+       DESCR('CI MQ local queue notification message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+DEFINE QLOCAL ('FNCN.TODI.091311229.A1') +
+       DESCR('CI MQ local queue notification message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+***************************************************
+*   Local queue where broadcast messages
+*   return from the Federal Reserve.
+***************************************************
+
+DEFINE QLOCAL ('FNPB.TODI.091311229.A1') +
+       DESCR('CI MQ local broadcast message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+DEFINE QLOCAL ('FNCB.TODI.091311229.A1') +
+       DESCR('CI MQ local broadcast message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+***************************************************
+*   Local queue where statement messages return
+*   from the Federal Reserve.
+***************************************************
+
+DEFINE QLOCAL ('FNPS.TODI.091311229.A1') +
+       DESCR('CI MQ queue statement message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+DEFINE QLOCAL ('FNCS.TODI.091311229.A1') +
+       DESCR('CI MQ queue statement message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+
+***************************************************
+* Creates QLOCAL queues for 725160131 that are NOT
+* connected to a XMITQ, so they can be used for local testing
+* 
+* Creates FNPR ( production ) and FNCR ( contingency ) queues 
+***************************************************
+
+***************************************************
+*   Application puts request messages into this
+*   queue.
+***************************************************
+
+DEFINE QLOCAL ('FNPR.FROMDI.725160131.A1') +
+       DESCR('Remote CI MQ  q FNCR.FROMDI.725160131.A1') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+DEFINE QLOCAL ('FNCR.FROMDI.725160131.A1') +
+       DESCR('Remote CI MQ  q FNCR.FROMDI.725160131.A1') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+
+***************************************************
+*   Local queue where acknowledgement messages
+*   return from the Federal Reserve.
+***************************************************
+
+DEFINE QLOCAL ('FNPA.TODI.725160131.A1') +
+       DESCR('CI MQ local queue acknowledgement message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+DEFINE QLOCAL ('FNCA.TODI.725160131.A1') +
+       DESCR('CI MQ local queue acknowledgement message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+***************************************************
+*   Local queue where notification messages
+*   return from the Federal Reserve.
+***************************************************
+
+DEFINE QLOCAL ('FNPN.TODI.725160131.A1') +
+       DESCR('CI MQ local queue notification message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+DEFINE QLOCAL ('FNCN.TODI.725160131.A1') +
+       DESCR('CI MQ local queue notification message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+***************************************************
+*   Local queue where broadcast messages
+*   return from the Federal Reserve.
+***************************************************
+
+DEFINE QLOCAL ('FNPB.TODI.725160131.A1') +
+       DESCR('CI MQ local broadcast message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+DEFINE QLOCAL ('FNCB.TODI.725160131.A1') +
+       DESCR('CI MQ local broadcast message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+***************************************************
+*   Local queue where statement messages return
+*   from the Federal Reserve.
+***************************************************
+
+DEFINE QLOCAL ('FNPS.TODI.725160131.A1') +
+       DESCR('CI MQ queue statement message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+DEFINE QLOCAL ('FNCS.TODI.725160131.A1') +
+       DESCR('CI MQ queue statement message') +
+       PUT(ENABLED) +
+       GET(ENABLED) +
+       DEFPRTY(0) +
+       DEFPSIST(YES) +
+       SCOPE(QMGR) +
+       CLUSTER(' ') +
+       CLUSNL(' ') +
+       DEFBIND(OPEN) +
+       REPLACE
+
+
+
+
+
+***************  END FED QUEUES
+
+
 
 * Use a different dead letter queue, for undeliverable messages
 ALTER QMGR DEADQ('DEV.DEAD.LETTER.QUEUE')
@@ -117,6 +457,7 @@ DEFINE CHANNEL('DEV.APP.SVRCONN') CHLTYPE(SVRCONN) MCAUSER('app') REPLACE
 
 * Developer channel authentication rules
 SET CHLAUTH('*') TYPE(ADDRESSMAP) ADDRESS('*') USERSRC(NOACCESS) DESCR('Back-stop rule - Blocks everyone') ACTION(REPLACE)
+* The following line is processed by mq-container/cmd/runmqdevserver/mqsc.go, replacing {{ .ChckClnt }} with either REQUIRED or ASKMGR
 SET CHLAUTH('DEV.APP.SVRCONN') TYPE(ADDRESSMAP) ADDRESS('*') USERSRC(CHANNEL) CHCKCLNT({{ .ChckClnt }}) DESCR('Allows connection via APP channel') ACTION(REPLACE)
 SET CHLAUTH('DEV.ADMIN.SVRCONN') TYPE(BLOCKUSER) USERLIST('nobody') DESCR('Allows admins on ADMIN channel') ACTION(REPLACE)
 SET CHLAUTH('DEV.ADMIN.SVRCONN') TYPE(USERMAP) CLNTUSER('admin') USERSRC(CHANNEL) DESCR('Allows admin user to connect via ADMIN channel') ACTION(REPLACE)
